@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - StudySync</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="min.css" />
+      <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Login Page -->
+    <div id="login" class="page">
+      <div class="login-container">
+        <h1>Welcome to StudySync</h1>
+        <form id="loginForm">
+          <input
+            type="text"
+            id="loginEmail"
+            placeholder="Email or phone number"
+            required
+          />
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+            required
+          />
+          <a class="btn1" href="index.html">Logout</a>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="app" style="display: none">
+      <header>
+        <h1>StudySync</h1>
+        <div class="user-menu">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/1827/1827392.png"
+            alt="Bell"
+            class="bell-icon"
+          />
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+            alt="Profile"
+            class="profile-icon"
+            onclick="showPage('profile')"
+          />
+          <!-- <button onclick="logout()">Logout</button> -->
+          <button class="btn" onclick="logout()">Logout</button>
+        </div>
+      </header>
+
+      <div class="main-container">
+        <nav class="sidebar">
+          <ul>
+            <li onclick="showPage('dashboard')">📊 Dashboard</li>
+            <li onclick="showPage('assignments')">📝 Assignments</li>
+            <li onclick="showPage('calendar')">📅 Calendar</li>
+            <li onclick="showPage('progress')">📈 Progress</li>
+            <li onclick="showPage('subjects')">📚 Subjects</li>
+            <li onclick="showPage('settings')">⚙️ Settings</li>
+            <li onclick="showPage('Discipline')">
+              📊 Developing Self Discipline
+            </li>
+            <li onclick="showPage('opportunities')">🎯 Opportunities</li>
+            <li onclick="showPage('challenges-faced')">⚠️ Challenges Faced</li>
+            <li onclick="showPage('time-management')">⏰ Time Management</li>
+            <li onclick="showPage('modern-technology')">
+              💻 Modern Technology
+            </li>
+            <li onclick="showPage('help')">❓ Help & Support</li>
+          </ul>
+        </nav>
+
+        <main>
+          <!-- Dashboard -->
+          <div id="dashboard" class="content">
+            <div class="dash-grid">
+              <div class="card">
+                <h2>Your Progress</h2>
+                <progress id="dashProgress" value="0" max="100"></progress>
+                <span id="dashPercent">0% Completed</span>
+              </div>
+              <div class="card">
+                <h2>Motivational Quote</h2>
+                <p id="quoteText"></p>
+                <button
+                  class="secondary"
+                  onclick="document.getElementById('quoteText').innerText = getRandomQuote()"
+                >
+                  Next Quote
+                </button>
+              </div>
+              <div class="card">
+                <h2>Upcoming Deadlines</h2>
+                <table id="upcomingTable">
+                  <thead>
+                    <tr>
+                      <th>Task</th>
+                      <th>Due</th>
+                      <th>Subject</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="card">
+                <h2>Recent Activity</h2>
+                <ul id="activityList"></ul>
+              </div>
+              <div class="card">
+                <h2>Progress Tracker</h2>
+                <div class="progress-circle" id="dashCircle">
+                  <span id="dashCirclePercent">0%</span>
+                </div>
+              </div>
+            </div>
+            <button class="add-button" onclick="showPage('add-assignment')">
+              +
+            </button>
+          </div>
+
+          <!-- Assignments -->
+          <div id="assignments" class="content" style="display: none">
+            <h1>My Assignments</h1>
+            <div class="filter-buttons">
+              <button onclick="filterAssignments('all')">All</button>
+              <button onclick="filterAssignments('pending')">Pending</button>
+              <button onclick="filterAssignments('completed')">
+                Completed
+              </button>
+            </div>
+            <table id="assignmentsTable">
+              <thead>
+                <tr>
+                  <th>Assignment</th>
+                  <th>Subject</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <button onclick="showPage('add-assignment')">
+              + Add Assignment
+            </button>
+          </div>
+
+          <!-- Add Assignment -->
+          <div id="add-assignment" class="content" style="display: none">
+            <h1>Add/Edit Assignment</h1>
+            <form id="addAssignmentForm">
+              <label>Assignment Name</label>
+              <input type="text" id="assignName" required />
+              <label>Subject</label>
+              <input type="text" id="assignSubject" required />
+              <label>Due Date</label>
+              <input type="date" id="assignDue" required />
+              <label>Description</label>
+              <textarea id="assignDesc"></textarea>
+              <button type="submit">Save Task</button>
+              <a href="#" onclick="showPage('assignments')">Back</a>
+            </form>
+          </div>
+
+          <!-- Calendar -->
+          <div id="calendar" class="content" style="display: none">
+            <h1>Assignment Calendar</h1>
+            <div id="calendarGrid" class="calendar-grid"></div>
+          </div>
+
+          <!-- <Progress -->
+          <div id="progress" class="content" style="display: none">
+            <div id="progress" class="progress-section">
+              <div class="progress-card">
+                <h2>Progress Tracker</h2>
+
+                <div class="progress-circle" id="progressCircle">
+                  <span id="progressPercent">70%</span>
+                </div>
+
+                <p id="progressMessage" class="progress-text">
+                  You've completed <strong>70%</strong><br />of your tasks!
+                </p>
+
+                <p class="motivation-text">Keep up the good work!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subjects -->
+          <div id="subjects" class="content" style="display: none">
+            <h1>Subjects</h1>
+            <div class="subjects-slider">
+              <button class="slider-prev" onclick="slideSubjects(-1)">◀</button>
+              <div class="slider-wrapper">
+                <ul class="slider-list">
+                  <li>ICS - Information Computer Science</li>
+                  <li>SAAD - System Analysis and Design</li>
+                  <li>Web Designing and Development</li>
+                  <li>Mathematics</li>
+                  <li>Web Development Advanced</li>
+                </ul>
+              </div>
+              <button class="slider-next" onclick="slideSubjects(1)">▶</button>
+            </div>
+          </div>
+
+          <!-- Profile -->
+          <div id="profile" class="content" style="display: none">
+            <h1>Profile</h1>
+            <div class="profile-info">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                alt="Profile"
+              />
+              <div class="profile-text">
+                <p id="profileName"></p>
+                <p id="profileEmail"></p>
+                <p id="profileMajor"></p>
+              </div>
+            </div>
+            <button class="secondary" onclick="showEditProfile()">
+              Edit Profile
+            </button>
+            <div id="editProfileForm" style="display: none">
+              <label>Name</label><input type="text" id="editName" />
+              <label>Email</label><input type="email" id="editEmail" />
+              <label>Major</label><input type="text" id="editMajor" />
+              <button onclick="saveProfile()">Save</button>
+            </div>
+            <h2>Progress</h2>
+            <progress id="profileProgress" value="0" max="100"></progress>
+            <span id="profilePercent">0%</span>
+          </div>
+
+          <!-- Settings -->
+          <div id="settings" class="content" style="display: none">
+            <h1>Settings</h1>
+
+            <div class="settings-group">
+              <label>Theme:</label>
+              <div class="radio-group">
+                <input
+                  type="radio"
+                  name="theme"
+                  value="light"
+                  id="theme-light"
+                  checked
+                />
+                <label for="theme-light">Light</label>
+
+                <input type="radio" name="theme" value="dark" id="theme-dark" />
+                <label for="theme-dark">Dark</label>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <label>Notifications</label>
+              <label class="switch">
+                <input type="checkbox" id="notifToggle" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="settings-group">
+              <label>Account Privacy</label>
+              <input type="checkbox" id="privacyToggle" />
+            </div>
+
+            <button class="secondary" onclick="saveSettings()">
+              Save Changes
+            </button>
+          </div>
+
+          <!-- Developing Self Discipline -->
+          <div
+            id="Discipline"
+            class="content stats-section"
+            style="display: none"
+          >
+            <div class="discipline-section">
+              <h2>Introduction to Self-Discipline</h2>
+              <div class="discipline-image-box">
+                <img
+                  src="folder/imgfolder/selfDesplineNO1.png"
+                  alt="Self-discipline concept"
+                />
+              </div>
+              <p>
+                Self-discipline is a vital aspect of a student's life, shaping
+                their character, habits, and future success. It helps in
+                maintaining focus, achieving goals, and overcoming
+                procrastination.
+              </p>
+            </div>
+
+            <div class="discipline-section">
+              <h2>Developing Self-Discipline for Better Learning</h2>
+              <div class="discipline-image-box">
+                <img
+                  src="folder/imgfolder/Desclipne no2.png"
+                  alt="Discipline strategies"
+                />
+              </div>
+
+              <div class="discipline-grid">
+                <div class="discipline-card">
+                  <h3>Goal Setting</h3>
+                  <p>
+                    Set clear, realistic, and measurable objectives for your
+                    studies.
+                  </p>
+                </div>
+                <div class="discipline-card">
+                  <h3>Routine Development</h3>
+                  <p>
+                    Create consistent daily habits like fixed study times and
+                    breaks.
+                  </p>
+                </div>
+                <div class="discipline-card">
+                  <h3>Positive Reinforcement</h3>
+                  <p>Reward yourself for completing tasks and milestones.</p>
+                </div>
+                <div class="discipline-card">
+                  <h3>Mindfulness Practices</h3>
+                  <p>
+                    Incorporate meditation or focus exercises to improve
+                    concentration.
+                  </p>
+                </div>
+                <div class="discipline-card">
+                  <h3>Environment Structuring</h3>
+                  <p>Optimize your study space to minimize distractions.</p>
+                </div>
+                <div class="discipline-card">
+                  <h3>Regular Feedback</h3>
+                  <p>
+                    Track progress and adjust habits for continuous improvement.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="discipline-section">
+              <h2>Self-Discipline Statistics</h2>
+              <div class="stats-container">
+                <div class="stats-left">
+                  <div class="chart-card">
+                    <h3>Study Habits Progress</h3>
+                    <div class="bar-container">
+                      <div class="bar-label">Goal Setting</div>
+                      <div class="bar" style="width: 75%"></div>
+                      <div class="bar-value">75%</div>
+                    </div>
+                    <div class="bar-container">
+                      <div class="bar-label">Routine</div>
+                      <div class="bar" style="width: 60%"></div>
+                      <div class="bar-value">60%</div>
+                    </div>
+                    <div class="bar-container">
+                      <div class="bar-label">Focus</div>
+                      <div class="bar" style="width: 85%"></div>
+                      <div class="bar-value">85%</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="stats-right">
+                  <div class="chart-card">
+                    <canvas
+                      id="disciplineChart"
+                      width="300"
+                      height="200"
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="discipline-section">
+              <h2>Benefits of Self-Discipline in Student Life</h2>
+              <ul class="discipline-list">
+                <li>Improved focus and reduced procrastination.</li>
+                <li>Better time management and productivity.</li>
+                <li>Higher academic performance and grades.</li>
+                <li>Stronger habits for long-term success.</li>
+                <li>Increased confidence and self-control.</li>
+                <li>Better stress management during exams.</li>
+                <li>Preparation for professional and personal challenges.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Opportunities -->
+          <div id="opportunities" class="content" style="display: none">
+            <div class="opportunities-container">
+              <h1>Opportunities Ahead</h1>
+              <div class="opportunities-grid">
+                <div class="opportunity-box">
+                  <h3>VISION FOR GROWTH</h3>
+                  <p>Next 3-5 Years</p>
+                </div>
+                <div class="opportunity-box">
+                  <h3>MARKET ANALYSIS</h3>
+                  <p>Industry Trends</p>
+                </div>
+                <div class="opportunity-box">
+                  <h3>GROWTH ASSUMPTIONS</h3>
+                  <p>Strategy & Rationale</p>
+                </div>
+                <div class="opportunity-box">
+                  <h3>RESOURCES NEEDED</h3>
+                  <p>Human & Financial</p>
+                </div>
+                <div class="opportunity-box">
+                  <h3>POTENTIAL CHALLENGES</h3>
+                  <p>Risks & Mitigation</p>
+                </div>
+                <div class="opportunity-box">
+                  <h3>STRATEGIES & TACTICS</h3>
+                  <p>Execution Plan</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Challenges Faced -->
+          <div id="challenges-faced" class="content" style="display: none">
+            <div class="challenges-container">
+              <div class="challenges-header">
+                <h1>Challenges Faced</h1>
+                <p>Common student challenges and solutions</p>
+              </div>
+
+              <div class="challenge-section">
+                <h2>Top 5 Screen Time Management Strategies</h2>
+                <div class="challenge-image">
+                  <img
+                    src="folder/imgfolder/TimeManagement No 1.png"
+                    alt="Screen time management"
+                  />
+                </div>
+                <div class="challenge-content">
+                  <div class="challenge-item">
+                    <h3>1. Set Clear Limits</h3>
+                    <p>
+                      Use built-in device features or apps to set daily screen
+                      time limits. Aim for balanced usage, prioritizing
+                      educational screens over entertainment.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>2. Pomodoro Technique</h3>
+                    <p>
+                      Study for 25-50 minutes focused sessions followed by short
+                      breaks. During breaks, step away from screens to reduce
+                      eye strain.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>3. Do Not Disturb Mode</h3>
+                    <p>
+                      Turn off notifications during study hours to avoid
+                      distractions from social media and messages.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>4. Track Usage</h3>
+                    <p>
+                      Regularly check screen time reports to identify high-usage
+                      apps and adjust habits accordingly.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>5. Screen-Free Zones</h3>
+                    <p>
+                      Designate study areas or meal times as screen-free to
+                      promote focus and better sleep.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="challenge-section">
+                <h2>Common Time Management Mistakes</h2>
+                <div class="challenge-image">
+                  <img
+                    src="folder/imgfolder/TimeManagement No 2.png.jpg "
+                    alt="Time management mistakes"
+                  />
+                </div>
+                <div class="challenge-content">
+                  <div class="challenge-item">
+                    <h3>Procrastination</h3>
+                    <p>
+                      Waiting until the last minute to start assignments,
+                      leading to rushed work and high stress.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Poor Planning</h3>
+                    <p>
+                      Not breaking down long-term projects into smaller steps or
+                      scheduling them properly.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Multitasking</h3>
+                    <p>
+                      Trying to do multiple tasks at once, which reduces
+                      efficiency and increases errors.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Overcommitting</h3>
+                    <p>
+                      Saying yes to too many activities, leaving no time for
+                      rest or deep focus.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Ignoring Fatigue</h3>
+                    <p>
+                      Studying when overly tired without taking breaks, leading
+                      to poor retention.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="challenge-section">
+                <h2>Dealing with Study Fatigue</h2>
+                <div class="challenge-image">
+                  <img
+                    src="folder/imgfolder/TimeManagement No3.png"
+                    alt="Study fatigue"
+                  />
+                </div>
+                <div class="fatigue-warning">
+                  <strong>Problem:</strong> Getting tired while studying leads
+                  to procrastination and reduced focus. Reading dense material
+                  when fatigued makes it hard to concentrate.
+                </div>
+                <div class="challenge-content">
+                  <div class="challenge-item">
+                    <h3>Peak Energy Times</h3>
+                    <p>
+                      Study during your peak energy times (e.g., mornings or
+                      after a short rest).
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Take Breaks</h3>
+                    <p>
+                      Take frequent short breaks: Walk around, stretch, or jog
+                      in place for a few minutes.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Power Naps</h3>
+                    <p>
+                      Avoid long naps mid-session; opt for power naps (10-20
+                      minutes) if needed.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Stay Healthy</h3>
+                    <p>
+                      Stay hydrated, eat healthy snacks, and ensure good sleep
+                      hygiene at night.
+                    </p>
+                  </div>
+                  <div class="challenge-item">
+                    <h3>Active Learning</h3>
+                    <p>
+                      Use active study techniques like teaching the material
+                      aloud to stay engaged.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Time Management -->
+          <div id="time-management" class="content" style="display: none">
+            <div class="time-management-container">
+              <div class="time-management-header">
+                <h1>Time Management</h1>
+                <p>Master your time, master your success</p>
+              </div>
+
+              <div class="time-section">
+                <h2>4 Biggest Time Management Challenges</h2>
+                <div class="time-image">
+                  <img
+                    src="folder/imgfolder/importance-of-time-management No1.jpg"
+                    alt="Time Management Challenges"
+                  />
+                </div>
+
+                <div class="challenges-grid">
+                  <div class="time-challenge-card">
+                    <div class="challenge-icon">🎯</div>
+                    <h3>Distraction</h3>
+                    <p>
+                      <strong>Solution:</strong> Make eliminating distractions a
+                      long-term goal
+                    </p>
+                    <ul>
+                      <li>Limit screen time and social media</li>
+                      <li>Schedule specific email checking times</li>
+                      <li>Find a peaceful work environment</li>
+                      <li>Learn how to say "No" to interruptions</li>
+                    </ul>
+                  </div>
+
+                  <div class="time-challenge-card">
+                    <div class="challenge-icon">⚡</div>
+                    <h3>Multitasking</h3>
+                    <p>
+                      <strong>Solution:</strong> Unlearn multitasking to work
+                      smarter
+                    </p>
+                    <ul>
+                      <li>Focus on individual tasks one by one</li>
+                      <li>Prioritize tasks by importance</li>
+                      <li>Use time-blocking techniques</li>
+                      <li>Complete one task before starting another</li>
+                    </ul>
+                  </div>
+
+                  <div class="time-challenge-card">
+                    <div class="challenge-icon">⏰</div>
+                    <h3>Procrastination</h3>
+                    <p>
+                      <strong>Solution:</strong> Identify patterns that lead to
+                      procrastination
+                    </p>
+                    <ul>
+                      <li>Identify main reasons behind procrastination</li>
+                      <li>Break large tasks into smaller chunks</li>
+                      <li>Use the 2-minute rule for quick tasks</li>
+                      <li>Reward yourself for completing tasks</li>
+                    </ul>
+                  </div>
+
+                  <div class="time-challenge-card">
+                    <div class="challenge-icon">🎯</div>
+                    <h3>Incomplete Goals</h3>
+                    <p><strong>Solution:</strong> Create sustainable habits</p>
+                    <ul>
+                      <li>Delegate when possible</li>
+                      <li>Communicate clearly with team members</li>
+                      <li>Take regular breaks to avoid burnout</li>
+                      <li>Figure out your most productive hours</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="time-section">
+                <h2>Importance of Time Management in Learning</h2>
+                <div class="time-image">
+                  <img
+                    src="folder/imgfolder/TimeManagement .png"
+                    alt="Time Management Benefits"
+                  />
+                </div>
+
+                <div class="benefits-container">
+                  <div class="benefit-item">
+                    <div class="benefit-icon">💎</div>
+                    <h3>Precious Resource</h3>
+                    <p>
+                      Time is a precious resource that we all have in equal
+                      measure - use it wisely.
+                    </p>
+                  </div>
+                  <div class="benefit-item">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Increased Productivity</h3>
+                    <p>
+                      One of the key benefits is significantly increased
+                      productivity and output.
+                    </p>
+                  </div>
+                  <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Task Prioritization</h3>
+                    <p>
+                      Helps prioritize tasks effectively and avoid dangerous
+                      procrastination habits.
+                    </p>
+                  </div>
+                  <div class="benefit-item">
+                    <div class="benefit-icon">🌟</div>
+                    <h3>Overall Success</h3>
+                    <p>
+                      A crucial skill that significantly impacts productivity,
+                      well-being, and success.
+                    </p>
+                  </div>
+                  <div class="benefit-item">
+                    <div class="benefit-icon">💼</div>
+                    <h3>Professional Growth</h3>
+                    <p>
+                      Beneficial not only professionally but also in personal
+                      life management.
+                    </p>
+                  </div>
+                  <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Realistic Goals</h3>
+                    <p>
+                      Helps in setting realistic goals and achievable deadlines.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modern Technology -->
+          <div id="modern-technology" class="content" style="display: none">
+            <div class="technology-container">
+              <div class="tech-header">
+                <h1>Modern Technology</h1>
+                <p>Digital tools transforming education</p>
+                <p class="tech-date">December 2025</p>
+              </div>
+
+              <div class="tech-section">
+                <h2>Introduction to Digital Education Tools</h2>
+                <div class="tech-image">
+                  <img
+                    src="folder/imgfolder/MordernTechnologyNo2.jpg.png"
+                    alt="Digital Education Tools"
+                  />
+                </div>
+                <div class="tech-intro">
+                  <p>
+                    Technology has transformed modern education, making learning
+                    more interactive, accessible, and engaging for both teachers
+                    and students. Digital tools bridge gaps between traditional
+                    and modern learning methods.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tech-section">
+                <h2>Popular Digital Tools for Learning</h2>
+                <div class="tech-image">
+                  <img src="folder/imgfolder/MordernTechnologyNo3.jpg.png" alt="Popular Digital Tools" />
+                </div>
+
+                <div class="tools-container">
+                  <div class="tech-tool-card">
+                    <div class="tool-header">
+                      <div class="tool-icon">📚</div>
+                      <h3>Google Classroom</h3>
+                    </div>
+                    <p>
+                      Streamlines assignment distribution, grading, and
+                      communication between teachers and students.
+                    </p>
+                  </div>
+
+                  <div class="tech-tool-card">
+                    <div class="tool-header">
+                      <div class="tool-icon">🎮</div>
+                      <h3>Kahoot!</h3>
+                    </div>
+                    <p>
+                      Engaging quiz platform for interactive learning and
+                      gamification in classrooms.
+                    </p>
+                  </div>
+
+                  <div class="tech-tool-card">
+                    <div class="tool-header">
+                      <div class="tool-icon">📹</div>
+                      <h3>Zoom / Teams</h3>
+                    </div>
+                    <p>
+                      Video conferencing tools for remote and hybrid learning
+                      environments.
+                    </p>
+                  </div>
+
+                  <div class="tech-tool-card">
+                    <div class="tool-header">
+                      <div class="tool-icon">🕶️</div>
+                      <h3>Nearpod</h3>
+                    </div>
+                    <p>
+                      Interactive lessons with VR, polls, and quizzes for
+                      immersive learning.
+                    </p>
+                  </div>
+
+                  <div class="tech-tool-card">
+                    <div class="tool-header">
+                      <div class="tool-icon">🎨</div>
+                      <h3>Canva Education</h3>
+                    </div>
+                    <p>
+                      Design tools for creating presentations, infographics, and
+                      visual content.
+                    </p>
+                  </div>
+
+                  <div class="tech-tool-card">
+                    <div class="tool-header">
+                      <div class="tool-icon">📋</div>
+                      <h3>Padlet</h3>
+                    </div>
+                    <p>
+                      Collaborative digital bulletin board for ideas, feedback,
+                      and group projects.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tech-section">
+                <h2>Benefits of Technology in Education</h2>
+                <div class="tech-image">
+                  <img
+                    src="folder/imgfolder/MordernTechnologyNo4.jpg.png"
+                    alt="Education Benefits"
+                  />
+                </div>
+
+                <div class="benefits-grid">
+                  <div class="tech-benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Increased Engagement</h3>
+                    <p>
+                      Interactive content and gamification boost student
+                      participation and interest.
+                    </p>
+                  </div>
+
+                  <div class="tech-benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Personalized Learning</h3>
+                    <p>
+                      Tailored experiences adapted to individual learning styles
+                      and paces.
+                    </p>
+                  </div>
+
+                  <div class="tech-benefit-card">
+                    <div class="benefit-icon">🌐</div>
+                    <h3>Improved Accessibility</h3>
+                    <p>
+                      Remote and inclusive education opportunities for diverse
+                      learners.
+                    </p>
+                  </div>
+
+                  <div class="tech-benefit-card">
+                    <div class="benefit-icon">🤝</div>
+                    <h3>Enhanced Collaboration</h3>
+                    <p>
+                      Better teamwork and communication among students and
+                      teachers.
+                    </p>
+                  </div>
+
+                  <div class="tech-benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Resource Management</h3>
+                    <p>
+                      Efficient use of digital textbooks and educational
+                      materials.
+                    </p>
+                  </div>
+
+                  <div class="tech-benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Real-time Feedback</h3>
+                    <p>
+                      Instant analytics and progress tracking for continuous
+                      improvement.
+                    </p>
+                  </div>
+
+                  <div class="tech-benefit-card">
+                    <div class="benefit-icon">💼</div>
+                    <h3>Future Preparation</h3>
+                    <p>Develops digital skills needed for modern workplaces.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tech-section">
+                <h2>Time Management in Digital Learning</h2>
+                <div class="tech-image">
+                  <img
+                    src="folder/imgfolder/pomodoro.webp"
+                    alt="Digital Learning Time Management"
+                  />
+                </div>
+                <div class="time-management-tip">
+                  <p>
+                    <strong>Key Insight:</strong> Integrating technology
+                    requires good time management to avoid distractions and
+                    ensure productivity. Set boundaries, use focus tools, and
+                    maintain a healthy digital balance.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Help & Support -->
+          <div id="help" class="content" style="display: none">
+            <h1>Help & Support</h1>
+            <div class="help-container">
+              <div class="faq" onclick="toggleFaq(this)">
+                <h3>How do I add a new task? <span class="arrow">▼</span></h3>
+                <p style="display: none">
+                  Go to Assignments → Add Assignment and fill the form.
+                </p>
+              </div>
+              <div class="faq" onclick="toggleFaq(this)">
+                <h3>How to track progress? <span class="arrow">▼</span></h3>
+                <p style="display: none">Check the Progress or Stats page.</p>
+              </div>
+              <div class="faq" onclick="toggleFaq(this)">
+                <h3>How to edit my profile? <span class="arrow">▼</span></h3>
+                <p style="display: none">
+                  Go to Profile → Click Edit Profile button → Make changes →
+                  Save.
+                </p>
+              </div>
+              <div class="faq" onclick="toggleFaq(this)">
+                <h3>How to change theme? <span class="arrow">▼</span></h3>
+                <p style="display: none">
+                  Go to Settings → Choose Light or Dark theme → Save Changes.
+                </p>
+              </div>
+              <div class="faq" onclick="toggleFaq(this)">
+                <h3>How to view my calendar? <span class="arrow">▼</span></h3>
+                <p style="display: none">
+                  Click on Calendar in the sidebar to view your assignment
+                  calendar.
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+<!-- Top Navigation -->
