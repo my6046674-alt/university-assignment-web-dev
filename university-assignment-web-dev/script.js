@@ -171,9 +171,9 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
 
 
 
-// ASSIGNMENT FUNCTIONS
+// ASSIGNMENT FUNCTIONS Add and Edit Assignment
 
-// ADD / EDIT ASSIGNMENT
+
 document
   .getElementById("addAssignmentForm")
   .addEventListener("submit", function (event) {
@@ -197,7 +197,7 @@ document
       assignments.push(newAssignment);
       activity.unshift("New task added: " + name);
     }
-    // EDIT ASSIGNMENT
+    
     else {
       assignments[editIndex].name = name;
       assignments[editIndex].subject = subject;
@@ -295,9 +295,9 @@ function deleteAssignment(index) {
   filterAssignments("all");
 }
 
-// PROGRESS FUNCTIONS
+// PROGRESS FUNCTIONS 
 
-// 1. UPDATE DASHBOARD PROGRESS BAR
+// 1. UPDATE DASHBOARD PROGRESS BAR 
 function updateProgress() {
   var completed = 0;
   var total = assignments.length;

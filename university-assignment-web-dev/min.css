@@ -509,13 +509,6 @@ table tr:hover {
   border-radius: 50%;
 }
 
-/* input:checked + .slider {
-  background-color: #2196f3;
-} */
-
-/* input:checked + .slider:before {
-  transform: translateX(26px);
-} */
 
 /* Developing Self Discipline Section */
 .discipline-section {
@@ -1143,50 +1136,365 @@ table tr:hover {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* ===== COMPLETE RESPONSIVE FIX FOR ALL DEVICES ===== */
+
+/* Reset and Base */
+* {
+  box-sizing: border-box;
+}
+
+/* Main Container */
+.content {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+}
+
+/* Dashboard Grid - Fixed */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Card Fix */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.card h2 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  white-space: nowrap;
+}
+
+/* ===== UPCOMING DEADLINES TABLE FIX ===== */
+#upcomingTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+#upcomingTable th,
+#upcomingTable td {
+  padding: 10px 8px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #eee;
+}
+
+#upcomingTable th {
+  background: #f8f9fa;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+#upcomingTable td {
+  font-size: 14px;
+}
+
+/* Assignments Table Fix */
+#assignmentsTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+#assignmentsTable th,
+#assignmentsTable td {
+  padding: 10px 8px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #eee;
+}
+
+/* Progress Bar Fix */
+progress {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+}
+
+/* Progress Circle Fix */
+.progress-circle {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Activity List Fix */
+#activityList {
+  list-style: disc;
+  padding-left: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#activityList li {
+  padding: 5px 0;
+  white-space: nowrap;
+}
+
+/* ===== LARGE TV / LED SCREENS (1920px+) ===== */
+@media (min-width: 1920px) {
+  .dash-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .card {
+    padding: 25px;
+  }
+  .card h2 {
+    font-size: 1.5rem;
+  }
+  #upcomingTable th,
+  #upcomingTable td {
+    padding: 12px 10px;
+    font-size: 16px;
+  }
+  main {
+    padding: 40px;
+  }
+}
+
+/* ===== EXTRA LARGE TV (2560px+) ===== */
+@media (min-width: 2560px) {
+  .dash-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+  .card {
+    padding: 35px;
+  }
+  .card h2 {
+    font-size: 1.8rem;
+  }
+  #upcomingTable th,
+  #upcomingTable td {
+    padding: 15px 12px;
+    font-size: 18px;
+  }
+}
+
+/* ===== 4K TV (3840px+) ===== */
+@media (min-width: 3840px) {
+  .dash-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 50px;
+  }
+  .card {
+    padding: 45px;
+  }
+  .card h2 {
+    font-size: 2.2rem;
+  }
+  #upcomingTable th,
+  #upcomingTable td {
+    padding: 20px 15px;
+    font-size: 22px;
+  }
+  main {
+    padding: 60px;
+  }
+}
+
+/* ===== DESKTOP (1200px - 1919px) ===== */
+@media (min-width: 1200px) and (max-width: 1919px) {
+  .dash-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== LAPTOP (992px - 1199px) ===== */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .dash-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== TABLETS (768px - 991px) ===== */
+@media (min-width: 768px) and (max-width: 991px) {
   .main-container {
     flex-direction: column;
   }
-
   .sidebar {
     width: 100%;
-    height: auto;
+    padding: 10px;
   }
-
   .sidebar ul {
     display: flex;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
   }
-
+  .sidebar ul li {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
   .dash-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .stats-container {
+/* ===== MOBILE LANDSCAPE (576px - 767px) ===== */
+@media (min-width: 576px) and (max-width: 767px) {
+  .main-container {
     flex-direction: column;
   }
-
-  .discipline-list {
-    columns: 1;
+  .sidebar {
+    width: 100%;
   }
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .sidebar ul li {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .dash-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
 
-  .opportunities-grid {
+/* ===== MOBILE PORTRAIT (max 575px) ===== */
+@media (max-width: 575px) {
+  header {
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+  header h1 {
+    font-size: 1.3rem;
+  }
+  .main-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+  .sidebar ul li {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  main {
+    padding: 15px;
+  }
+  .dash-grid {
     grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .card {
+    padding: 15px;
+  }
+  .card h2 {
+    font-size: 1.1rem;
+  }
+  
+  table {
+    width: 100%;
   }
 
-  .challenges-grid {
-    grid-template-columns: 1fr;
+  thead {
+    display: none; /* hide table heading */
   }
 
-  .benefits-container {
-    grid-template-columns: 1fr;
+  tr {
+    display: block;
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
   }
 
-  .tools-container {
-    grid-template-columns: 1fr;
+  td {
+    display: block;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
   }
 
-  .benefits-grid {
-    grid-template-columns: 1fr;
+  td:last-child {
+    border-bottom: none;
   }
+
+  /* Show label before each data */
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+  }
+  
+  /* Login Page Mobile */
+  .login-container {
+    padding: 25px 20px;
+    margin: 10px;
+  }
+  .login-container h1 {
+    font-size: 1.4rem;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+}
+
+/* ===== VERY SMALL PHONES (max 360px) ===== */
+@media (max-width: 360px) {
+  .sidebar ul li {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+  .card h2 {
+    font-size: 1rem;
+  }
+  .login-container h1 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ===== ALL IMAGES RESPONSIVE ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== DARK THEME RESPONSIVE FIX ===== */
+.dark .card {
+  background: #161b22;
+}
+.dark #upcomingTable th {
+  background: #21262d;
+}
+.dark #upcomingTable tr,
+.dark #assignmentsTable tr {
+  background: #21262d;
+  border-color: #30363d;
+}
+.dark #upcomingTable td,
+.dark #assignmentsTable td {
+  border-color: #30363d;
 }
